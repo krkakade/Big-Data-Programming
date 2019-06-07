@@ -1,1 +1,379 @@
+#****cardsdeck.py*****
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jun  7 20:20:13 2019#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jun  7 16:56:37 2019
 
+@author: komal
+"""
+
+#create cards for the game 
+class Card:
+    def __init__(self, name, Strength, Loyalty, Evilness, Intelligence, Power):
+        self.name = name
+        self.Strength = Strength
+        self.Loyalty = Loyalty
+        self.Evilness = Evilness
+        self.Intelligence = Intelligence
+        self.Power = Power
+     
+cards = []
+
+cards.append(Card(name="Arya Stark",
+                  Strength=80,
+                  Loyalty=99,
+                  Evilness=60,
+                  Intelligence=95,
+                  Power=75)) 
+
+cards.append(Card(name="Jon Snow",
+                  Strength=95,
+                  Loyalty=100,
+                  Evilness=50,
+                  Intelligence=90,
+                  Power=80))
+
+cards.append(Card(name="Daenerys Targaryen",
+                  Strength=70,
+                  Loyalty=90,
+                  Evilness=80,
+                  Intelligence=96,
+                  Power=99))
+
+cards.append(Card(name="Cersei Lannister",
+                  Strength=75,
+                  Loyalty=50,
+                  Evilness=95,
+                  Intelligence=94,
+                  Power=90))
+
+cards.append(Card(name="Bran Stark",
+                  Strength=20,
+                  Loyalty=98,
+                  Evilness=30,
+                  Intelligence=97,
+                  Power=78))
+
+cards.append(Card(name="Sansa Stark",
+                  Strength=65,
+                  Loyalty=89,
+                  Evilness=78,
+                  Intelligence=91,
+                  Power=79))
+
+cards.append(Card(name="Ramsay Bolton",
+                  Strength=90,
+                  Loyalty=10,
+                  Evilness=100,
+                  Intelligence=88,
+                  Power=73))
+
+cards.append(Card(name="Tyrion Lannister",
+                  Strength=75,
+                  Loyalty=86,
+                  Evilness=55,
+                  Intelligence=98,
+                  Power=77))
+
+cards.append(Card(name="Melisandre",
+                  Strength=35,
+                  Loyalty=50,
+                  Evilness=91,
+                  Intelligence=86,
+                  Power=88))
+
+cards.append(Card(name="Joffrey Baratheon",
+                  Strength=55,
+                  Loyalty=20,
+                  Evilness=99,
+                  Intelligence=66,
+                  Power=89))
+
+cards.append(Card(name="Brienne of Tarth",
+                  Strength=94,
+                  Loyalty=100,
+                  Evilness=89,
+                  Intelligence=71,
+                  Power=68))
+
+cards.append(Card(name="Lord Varys",
+                  Strength=60,
+                  Loyalty=70,
+                  Evilness=53,
+                  Intelligence=97,
+                  Power=70))
+
+cards.append(Card(name="Jamie Lannister",
+                  Strength=83,
+                  Loyalty=50,
+                  Evilness=94,
+                  Intelligence=68,
+                  Power=65))
+
+cards.append(Card(name="Sandor Clegane",
+                  Strength=93,
+                  Loyalty=80,
+                  Evilness=73,
+                  Intelligence=69,
+                  Power=62))
+
+cards.append(Card(name="Petyr Baelish",
+                  Strength=82,
+                  Loyalty=10,
+                  Evilness=91,
+                  Intelligence=92,
+                  Power=71))
+
+cards.append(Card(name="Margaery Tyrell",
+                  Strength=50,
+                  Loyalty=60,
+                  Evilness=52,
+                  Intelligence=93,
+                  Power=87))
+
+
+#*****game.py******
+@author: komal
+"""
+
+import random
+from time import sleep
+from CardsDeck import cards
+
+
+#Game Intro and begining
+print("******GOT TRUMP CARDS GAME******")
+print("Total number of cards are :",len(cards))
+print("---This Game can be played by only 2 players!---")
+print("--- Value of each characterstic lies between the range 1 to 100 ---")
+print("Lets begin the game...")
+begin_game = input("Shall we begin the Game? ")
+
+while begin_game != "yes":
+    print("Please input yes to proceed")
+    begin_game = input("Shall we begin the Game? (yes/no)")
+    
+random.shuffle(cards)
+playerDeck = []
+computerDeck = []
+outdatedDeck = []
+
+# Deal the cards
+while len(cards) > 0:
+    playerDeck.append(cards.pop(0))
+    computerDeck.append(cards.pop(0))
+    
+
+playerTurn = True
+godspellcountp = 0
+godspellcountc = 0
+rspellcountc = 0
+rspellcountp = 0
+p1points=0
+p2points=0
+ra=0
+rb=0
+
+while len(playerDeck) > 0 and len(computerDeck) > 0:
+    sleep(1)
+
+    if playerTurn == True:
+        
+        playerCard = playerDeck.pop(0)
+        outdatedDeck.append(playerCard)
+        print("PLAYER1 CARD")
+        print("Name:", playerCard.name)
+        print("1. Strength:", playerCard.Strength)
+        print("2. Loyalty:", playerCard.Loyalty)
+        print("3. Evilness:", playerCard.Evilness)
+        print("4. Intelligence:", playerCard.Intelligence)
+        print("5. Power:", playerCard.Power)
+        
+        answer = int(input("Player1, choose the characterstic you want to challenge with!! "))
+       
+        while answer not in range(1,6):
+            answer = int(input("Not a valid answer, please try again: "))
+        
+       
+        #player1 god spell
+        if (godspellcountp == 0  and len(computerDeck) > 1 and ra == 0):
+            godspell = input("Player1, do you want to use GOD SPELL? (yes/no) : ")
+            if (godspell == "yes" and godspellcountp == 0):
+                godspellcountp = 1
+                p2cards = len(computerDeck)
+                print("No of cards in Player2 deck:", p2cards)
+                cardno = input("Which card number from Player2 deck? ")
+                if (rspellcountc == 0 and len(outdatedDeck) > 1):
+                    rspell1 = input("Player2, do you want to use RESURRECT SPELL? (yes/no) :")
+                    if (rspell1 == "yes" and rspellcountc == 0):
+                        z2 = random.randint(1,len(outdatedDeck))
+                        mn = outdatedDeck.pop(int(z2)-1)
+                        computerDeck.insert(0,mn)
+                        choice = input("Player1: a. Force new card \n b. Force earlier card ")
+                        if (choice == "a"):
+                            computerCard = computerDeck.pop(0)
+                            outdatedDeck.append(computerCard)
+                            rspellcountc = 1
+                        else:    
+                            computerCard = computerDeck.pop(int(cardno)-1)
+                            outdatedDeck.append(computerCard)
+                            rspellcountc = 1
+                    else:
+                        computerCard = computerDeck.pop(int(cardno)-1)
+                        outdatedDeck.append(computerCard)
+                else:
+                    computerCard = computerDeck.pop(int(cardno)-1)
+                    outdatedDeck.append(computerCard)                     
+            else:
+                computerCard = computerDeck.pop(0)
+                outdatedDeck.append(computerCard)         
+        else:
+            computerCard = computerDeck.pop(0)
+            outdatedDeck.append(computerCard) 
+
+        if (rspellcountp == 0 and len(outdatedDeck) > 1 and ra == 0):
+            rspell = input("Player1, do you want to use RESURRECT SPELL? (yes/no) ")
+            if (rspell == "yes" and rspellcountp == 0):
+                z1 = random.randint(1,len(outdatedDeck))
+                playerCard = outdatedDeck.pop(int(z1)-1)
+                outdatedDeck.append(playerCard)
+                rspellcountp = 1
+                ra = 1
+            else:
+                playerCard = playerDeck.pop(0)
+                outdatedDeck.append(playerCard)
+        else:
+            playerCard = playerDeck.pop(0)
+            outdatedDeck.append(playerCard)
+            
+            
+        print("PLAYER2 CARD")
+        print("Name:", computerCard.name)
+        print("1. Strength:", computerCard.Strength)
+        print("2. Loyalty:", computerCard.Loyalty)
+        print("3. Evilness:", computerCard.Evilness)
+        print("4. Intelligence:", computerCard.Intelligence)
+        print("5. Power:", computerCard.Power)    
+        
+    else:
+        
+        print("PLAYER2 CARD")
+        print("Name:", computerCard.name)
+        print("1. Strength:", computerCard.Strength)
+        print("2. Loyalty:", computerCard.Loyalty)
+        print("3. Evilness:", computerCard.Evilness)
+        print("4. Intelligence:", computerCard.Intelligence)
+        print("5. Power:", computerCard.Power)
+        
+        answer = int(input("choose the characterstic you want to challenge with!! "))
+        print("Player2 chooses", answer)
+        
+        #Player2 god spell
+        if (godspellcountc == 0 and len(playerDeck) > 1 and rb == 0):
+            gspell1 = input("Player2, do you want to play God Spell? yes or no: ")
+            if (gspell1 == "yes" and godspellcountc == 0):
+                godspellcountc = 1
+                p2cards = len(playerDeck)
+                print("No of cards in Player1 deck:", p2cards)
+                cardno1 = input("Which card number from Player1 deck? ")
+                if (rspellcountp == 0 and len(outdatedDeck) > 1):
+                    rspell = input("Player1, do you want to play Resurrect Spell? yes or no: ")
+                    if (rspell == "yes" and rspellcountp == 0):
+                        z1 = random.randint(1,len(outdatedDeck))
+                        nm = outdatedDeck.pop(int(z1)-1)
+                        playerDeck.insert(0,nm)
+                        choice1 = input("Player2: a. Force resurrected card or b. Force earlier choice ")
+                        if (choice1 == "a"):
+                            playerCard = playerDeck.pop(0)
+                            outdatedDeck.append(playerCard)
+                            rspellcountp = 1
+                        else:
+                            playerCard = playerDeck.pop(int(cardno1)-1)
+                            outdatedDeck.append(playerCard)
+                            rspellcountp = 1
+                    else:
+                        playerCard = playerDeck.pop(int(cardno1)-1)
+                        outdatedDeck.append(playerCard)
+                else:                 
+                    playerCard = playerDeck.pop(int(cardno1)-1)
+                    outdatedDeck.append(playerCard)
+            else:
+                playerCard = playerDeck.pop(0)
+                outdatedDeck.append(playerCard)
+
+        
+        else:
+            playerCard = playerDeck.pop(0)
+            outdatedDeck.append(playerCard)
+                                   
+        #player2 resurrect spell
+        if (rspellcountc == 0 and len(outdatedDeck) > 1 and rb == 0):
+            rspell1 = input("Player2, do you want to play Resurrect Spell? yes or no: ")
+            if (rspell1 == "yes" and rspellcountc == 0):
+                z2 = random.randint(1,len(outdatedDeck))
+                computerCard = outdatedDeck.pop(int(z2)-1)
+                outdatedDeck.append(computerCard)
+                rspellcountc = 1
+                rb = 1
+            else:
+                computerCard = computerDeck.pop(0)
+                outdatedDeck.append(computerCard)
+
+        else:
+            computerCard = computerDeck.pop(0)
+            outdatedDeck.append(computerCard)
+        
+        
+        print("PLAYER1 CARD")
+        print("Name:", playerCard.name)
+        print("1. Strength:", playerCard.Strength)
+        print("2. Loyalty:", playerCard.Loyalty)
+        print("3. Evilness:", playerCard.Evilness)
+        print("4. Intelligence:", playerCard.Intelligence)
+        print("5. Power:", playerCard.Power)
+        
+    playerWins = False
+    #comparing cards of player1 and player2
+    if answer == 1:
+        playerWins = (playerCard.Strength < computerCard.Strength)
+    elif answer == 2:
+        playerWins = (playerCard.Loyalty > computerCard.Loyalty)
+    elif answer == 3:
+        playerWins = (playerCard.Evilness > computerCard.Evilness)
+    elif answer == 4:
+        playerWins = (playerCard.Intelligence > computerCard.Intelligence)
+    elif answer == 5:
+        playerWins = (playerCard.Power > computerCard.Power)
+
+    sleep(1)
+    
+    #who wins the point?
+    if playerWins:
+        print("***Player1 gets 1 point!!***\n\n")
+        p1points=p1points+1      
+        playerTurn = True
+    else:
+        print("***Player2 gets 1 point!!***\n\n")
+        p2points=p2points+1
+        playerTurn = False
+
+sleep(2)
+
+#who wins the game?
+if p1points<p2points:
+    print("PLAYER2 is the Winner!")
+elif p1points>p2points:
+    print("PLAYER1 is the Winner!")
+else:
+    print("OOops.... It's a tie!")
+ 
+
+sleep(2)
+
+#print points of player1 and player2 
+print("Player1 points: ", p1points)
+print("Player2 points: ", p2points)
+print("Number of cards in Outdated Deck: ", len(outdatedDeck))
